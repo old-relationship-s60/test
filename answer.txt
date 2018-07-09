@@ -1,0 +1,432 @@
+◆問題１　〜　クラスの作成（メンバ変数）
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Student {
+	public:
+		string name;
+		int height;
+		int weight;
+};
+
+int main() {
+	Student taro;
+	Student jiro;
+
+	taro.name = "太郎";
+	taro.height = 175;
+	taro.weight = 66;
+
+	jiro.name = "次郎";
+	jiro.height = 168;
+	jiro.weight = 72;
+
+	cout << "taro = " << taro.name << "  " << taro.height << "cm  " << taro.weight << "kg" << endl;
+	cout << "jiro = " << jiro.name << "  " << jiro.height << "cm  " << jiro.weight << "kg" << endl;
+}
+
+◆問題２　クラスの作成（メンバ関数）
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Student {
+	private:				// privateやpublicはアクセス指定子という。
+		string name;		// privateにすることによって自分のクラスからしかアクセスできないようになる。
+		int height;			// つまり、main関数から直接値を代入したりできなくなる。
+		int weight;
+	public:
+		Student(string name, int h, int w){
+			this->name = name;
+			height = h;
+			weight = w;
+		}
+		string get_name(){	// クラス内で関数を定義しているのでインライン関数になる。
+			return name;
+		}
+		int get_height(){
+			return height;
+		}
+		int get_weight(){
+			return weight;
+		}
+};
+
+int main() {
+	Student taro("太郎", 175, 66);
+	Student jiro("次郎", 168, 72);
+
+	cout << "taro = " << taro.get_name() << "  " << taro.get_height() << "cm  " << taro.get_weight() << "kg" << endl;
+	cout << "jiro = " << jiro.get_name() << "  " << jiro.get_height() << "cm  " << jiro.get_weight() << "kg" << endl;
+}
+
+◆問題３　クラスの作成（メンバ変数）
+
+#include <iostream>
+#include <string>
+
+class Student {
+	private:
+		std::string name;
+		int height;
+		int weight;
+	public:
+		Student(std::string n, int h, int w);
+		std::string get_name();
+		int get_height();
+		int get_weight();
+};
+
+
+#include <iostream>
+#include <string>
+#include "prac3.hpp"
+
+using namespace std;
+
+Student::Student(string n, int h, int w){
+	name = n;
+	height = h;
+	weight = w;
+}
+string Student::get_name(){
+	return name;
+}
+int Student::get_height(){
+	return height;
+}
+int Student::get_weight(){
+	return weight;
+}
+
+int main() {
+	Student taro("太郎", 175, 66);
+	Student jiro("次郎", 168, 72);
+
+	cout << "taro = " << taro.get_name() << "  " << taro.get_height() << "cm  " << taro.get_weight() << "kg" << endl;
+	cout << "jiro = " << jiro.get_name() << "  " << jiro.get_height() << "cm  " << jiro.get_weight() << "kg" << endl;
+}
+◆問題４　コピーコンストラクタ
+	Student jiro = taro;
+	
+◆問題5　引数とオブジェクト
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+	private:
+		string name;
+		int height;
+		int weight;
+	public:
+		Student(string n, int h, int w){
+			name = n;
+			height = h;
+			weight = w;
+		}
+		string get_name(){
+			return name;
+		}
+		int get_height(){
+			return height;
+		}
+		int get_weight(){
+			return weight;
+		}
+};
+
+void show(Student s){		// オブジェクトの各メンバの値がコピーされて関数内に渡される
+	cout << s.get_name() << "  " << s.get_height() << "cm  " << s.get_weight() << "kg" << endl;
+}
+
+int main(){
+	Student taro("太郎", 175, 66);
+	Student jiro("次郎", 168, 72);
+
+	show(taro);
+	show(jiro);
+}
+◆問題6　引数とオブジェクト(2)
+user@USER-no-MacBook-Air:~/testDir/Practice/C++/practice_20150504/text_learning$ cat Sample4.cpp 
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+	private:
+		string name;
+		int height;
+		int weight;
+	public:
+		Student(string n, int h, int w){
+			name = n;
+			height = h;
+			weight = w;
+		}
+		string get_name(){
+			return name;
+		}
+		int get_height(){
+			return height;
+		}
+		int get_weight(){
+			return weight;
+		}
+};
+
+void show(Student* ps){
+	cout << ps->get_name() << "  " << ps->get_height() << "cm  " << ps->get_weight() << "kg" << endl;
+}
+
+int main(){
+	Student taro("太郎", 175, 66);
+	Student jiro("次郎", 168, 72);
+
+	show(&taro);
+	show(&jiro);
+}
+◆問題7　引数とオブジェクト(3)
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+	private:
+		string name;
+		int height;
+		int weight;
+	public:
+		Student(string n, int h, int w){
+			name = n;
+			height = h;
+			weight = w;
+		}
+		string get_name(){
+			return name;
+		}
+		int get_height(){
+			return height;
+		}
+		int get_weight(){
+			return weight;
+		}
+};
+
+void show(Student& rs){
+	cout << rs.get_name() << "  " << rs.get_height() << "cm  " << rs.get_weight() << "kg" << endl;
+}
+
+int main(){
+	Student taro("太郎", 175, 66);
+	Student jiro("次郎", 168, 72);
+
+	show(taro);
+	show(jiro);
+}
+◆演習問題1
+user@USER-no-MacBook-Air:~/testDir/Practice/C++/practice_20150504/text_learning$ cat train1.cpp 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Point {
+	private:
+		int x;
+		int y;
+	public:
+		void setX(int& a);
+		void setY(int& b);
+		int getX();
+		int getY();
+};
+
+void Point::setX(int& a) {
+	x = 0;
+	if(a >= 0 && a <= 99)
+		x = a;
+}
+
+void Point::setY(int& b) {
+	y = 0;
+	if(b >= 0 && b <= 99)
+		y = b;
+}
+
+int Point::getX() {
+	return x;
+}
+int Point::getY() {
+	return y;
+}
+
+void show(Point* pp) {
+	cout << "座標は ( " << pp->getX() << ", " << pp->getY() << " ) です。\n" << endl;
+}
+
+int main() {
+	Point p;
+	int a = 0;
+	int b = 0;
+	cout << "X座標を入力せよ。" << endl;
+	cin >> a;
+	cout << "Y座標を入力せよ。" << endl;
+	cin >> b;
+	p.setX(a);
+	p.setY(b);
+
+	show(&p);
+
+	return 0;
+}
+
+$
+クラスの基本
+◆問題１　〜　クラスの作成（メンバ変数）
+
+
+①Studentクラスを作成。
+Studentクラスには、publicなメンバ変数として名前、身長、体重を登録できるものとする。
+メンバ関数は持たないものとする。
+
+②main関数内にて、太郎（身長175センチ、体重66キロ）、次郎（身長168センチ、体重72キロ）を登録し、
+出力せよ。
+　
+【実行結果】
+
+$ prac1 
+taro = 太郎  175cm  66kg
+jiro = 次郎  168cm  72kg
+$
+
+◆問題２　クラスの作成（メンバ関数）
+
+
+①Studentクラスを作成。
+Studentクラスには、privateなメンバ変数として名前、身長、体重を登録できるものとする。
+メンバ変数にはメンバ関数にてアクセスするものとする。
+②main関数内にて、コンストラクタにて太郎（身長175センチ、体重66キロ）、次郎（身長168センチ、体重72キロ）を登録し、
+出力せよ。
+　
+【実行結果】
+
+$ prac2
+taro = 太郎  175cm  66kg
+jiro = 次郎  168cm  72kg
+$ 
+
+◆問題３　クラスの作成（メンバ変数）
+
+「２．クラスの作成（メンバ関数）」で作成したクラスをヘッダとソースに分けよ。
+　
+【実行結果】
+
+$ prac3
+taro = 太郎  175cm  66kg
+jiro = 次郎  168cm  72kg
+$ 
+
+◆問題４　コピーコンストラクタ
+下記の出力がされるように、①に当てはまる処理を答えよ。
+　
+【実行結果】
+
+$ prac2
+jiro = 次郎  168cm  72kg
+$ 
+
+　
+【課題プログラム】
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Student {
+	private:
+		string name;
+		int height;
+		int weight;
+	public:
+		Student(string name, int h, int w){
+			this->name = name;
+			height = h;
+			weight = w;
+		}
+		string get_name(){
+			return name;
+		}
+		int get_height(){
+			return height;
+		}
+		int get_weight(){
+			return weight;
+		}
+};
+
+int main() {
+	Student taro("太郎", 175, 66);
+	＿＿＿①＿＿＿＿
+
+	cout << "jiro = " << jiro.get_name() << "  " << jiro.get_height() << "cm  " << jiro.get_weight() << "kg" << endl;
+}
+
+◆問題5　引数とオブジェクト
+①Studentクラスを作成。
+Studentクラスには、privateなメンバ変数として名前、身長、体重を登録できるものとする。
+メンバ変数にはメンバ関数にてアクセスするものとする。
+②main関数内にて、コンストラクタにて太郎（身長175センチ、体重66キロ）、次郎（身長168センチ、体重72キロ）を登録する。
+③Studentクラスとは関係ない独自のshow関数を作成し、②で設定した太郎と次郎の情報を出力せよ。
+　
+【実行結果】
+
+$ prac5 
+太郎  175cm  66kg
+次郎  168cm  72kg
+$ 
+
+◆問題6　引数とオブジェクト(2)
+関数にオブジェクトそのものではなく、ポインタを渡すことによって問題5を実現せよ。
+　
+【実行結果】
+
+$ prac6
+太郎  175cm  66kg
+次郎  168cm  72kg
+$ 
+◆問題7　引数とオブジェクト(3)
+関数にオブジェクトそのものではなく、ポインタを渡すことによって問題5を実現せよ。
+　
+【実行結果】
+
+$ prac7 
+太郎  175cm  66kg
+次郎  168cm  72kg
+$ 
+◆演習問題1
+X座標、Y座標をユーザ入力にて受け付け、入力された座標を最後に出力せよ。
+（X座標、Y座標はそれぞれ0〜99までしか受け付けず、範囲外の場合は0を設定するものとする）
+※ヒント：PointクラスにてX座標、Y座標を格納できるオブジェクトを生成し、独自のshow関数にて出力。
+　
+【実行結果】
+
+$ train1
+X座標を入力せよ。
+4
+Y座標を入力せよ。
+6
+座標は ( 4, 6 ) です。
+
+$ train1
+X座標を入力せよ。
+103
+Y座標を入力せよ。
+45
+座標は ( 0, 45 ) です。
+
+$
